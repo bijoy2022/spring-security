@@ -30,7 +30,8 @@ public class MyController {
 	
 
 	@GetMapping("employeeIdWithName/{id}/name/{name}")
-	public @ResponseBody Employee getEmployeeidWithName(@PathVariable Integer id,@PathVariable String name) {
+	@ResponseBody
+	public  Employee getEmployeeidWithName(@PathVariable Integer id,@PathVariable String name) {
 		
 		
 		List<Employee> emp= Employee.getEmployees().stream().filter(e->e.getId().equals(id)).collect(Collectors.toList());
