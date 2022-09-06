@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,10 +19,12 @@ import com.myproject.springsecurity.SpringSecurityApplication;
 import com.myproject.springsecurity.model.Employee;
 
 @RestController
-@RequestMapping("/security")
+//@RequestMapping("/security")
 public class MyController {
 	private static final Logger LOGGER = LogManager.getLogger(MyController.class);
-	@GetMapping("employee/{id}")
+	
+	
+	@GetMapping("/employee/{id}")
 	public @ResponseBody Employee getEmployee(@PathVariable Integer id) {
 		LOGGER.info("employee/{id called ----------------");
 		List<Employee> emp = Employee.getEmployees().stream().filter(e -> e.getId().equals(id))

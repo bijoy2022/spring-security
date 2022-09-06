@@ -1,24 +1,47 @@
 package com.myproject.springsecurity.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.myproject.springsecurity.model.Employee;
-
+import com.myproject.springsecurity.model.User;
+@RestController
 public class DefaultController {
 	
+	private static final Logger LOGGER = LogManager.getLogger(DefaultController.class);
 	
-	@GetMapping("")
-	public @ResponseBody Employee getEmployee(@PathVariable Integer id) {
+	@PreAuthorize("hasAuthority('ROLE_USER')") 
+	@PostMapping("/fetch")
+			public @ResponseBody String fetchUser(@RequestBody User user) {
+				LOGGER.info("getUser called ----------------");
+				System.out.println("login post method called...................");
+				System.out.println("User name password and enabled is "+user.getUsername()+"   " +user.getPassword()+"  "+user.isEnabled());
 
-		List<Employee> emp = Employee.getEmployees().stream().filter(e -> e.getId().equals(id))
-				.collect(Collectors.toList());
+				return "sucess";
 
-		return emp.get(0);
+			}
+	
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')") 
+	@PutMapping("/update")
+	public @ResponseBody String updateUser(@RequestBody User user) {
+		LOGGER.info("getUser called ----------------");
+		
+		System.out.println("login put method called...................");
+		System.out.println("User name password and enabled is "+user.getUsername()+"   " +user.getPassword()+"  "+user.isEnabled());
+		return "sucess";
+
+	}
+	
+	@GetMapping("/checkHealth")
+	public @ResponseBody String getEmployee() {
+		System.out.println("checkHealth called ..................");
+		return "checkHealth called successfully";
 
 	}
 
